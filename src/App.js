@@ -19,20 +19,19 @@ height: ${props => props.isOpen ? "430px" : "200px"};
 border: 1px solid green;
 border-radius: 20px;
 border: 3px #ccc solid;
-box-shadow: 0 0 10px #444;
+box-shadow: ${props => props.isOpen ? "0 0 10px #444" : "none"} ;
 `;
 const Scroll = styled(Scrollbars)`
 width: 300px,
 height: ${props => props.isOpen ? "335px" : "20px"},
 left: -100px;
 `;
-
-
+var dayjs = require("dayjs");
 class App extends Component {
     state = {
         programmList: [],
         channelTitle: '',
-        channelLogo: '',
+        channelLogo: '',    
       };
 
       handleErrorMessage = () => {
@@ -44,7 +43,6 @@ class App extends Component {
         .then((response) => {
           let responseArray = [];
           responseArray.push(Object.values(response.data[22]));
-          console.log(responseArray["0"]);
           this.setState({
             channelTitle: responseArray["0"]["1"],
             channelLogo: responseArray["0"]["2"],
@@ -55,7 +53,10 @@ class App extends Component {
         });
     }
     getChannelProgList = () => {
-        axios.get('http://epg.domru.ru/program/list?domain=perm&date_from=2019-04-12+00%3A00%3A00&date_to=2019-04-13+00%3A00%3A00&xvid[0]=1&xvid[1]')
+        var dateFrom = dayjs().format('YYYY-MM-DD');
+        var badTime = dayjs(dateFrom).add(1, 'day'); 
+        var dateTo = dayjs(badTime).format('YYYY-MM-DD');
+        axios.get('http://epg.domru.ru/program/list?domain=perm&date_from='+dateFrom+'+00%3A00%3A00&date_to='+dateTo+'+00%3A00%3A00&xvid[0]=1&xvid[1]')
           .then((response) => {
             let responseArray = [];
             responseArray.push(Object.values(response.data["1"]));
@@ -72,8 +73,10 @@ class App extends Component {
         this.getInfoChannel();
     }
     updateData = (value) => {
-    this.setState({ isOpen: value })
-}
+        this.setState({ 
+            isOpen: value,
+        });
+    }
     
     render() {
        
@@ -85,7 +88,7 @@ class App extends Component {
                     <Scroll>
                     {
                         this.state.programmList.map((item, index) => (
-                            <Title data={item} key={index}/>
+                            <Title data={item} key={index} />
                         ))
                     }
                     </Scroll>  

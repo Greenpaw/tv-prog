@@ -20,7 +20,7 @@ class Button extends Component {
         this.setState({
             isOpen: !this.state.isOpen,
         })
-        this.props.updateData(!this.state.isOpen)    
+        this.props.updateData(!this.state.isOpen);    
     }
 
     render() {

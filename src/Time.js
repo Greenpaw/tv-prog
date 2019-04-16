@@ -6,27 +6,22 @@ const TimeContaier = styled.span`
     display: inline-flex;
 `;
 
-class Title extends Component {
-    state = {
-        programmList: [],
-      };
+class Time extends Component {
 
-    getBetterTime = (time) => {
-        let withoutDate = time.split(" ")[1];
-        let betterTime;
-        betterTime = withoutDate.split(":")[0] + ':' + withoutDate.split(":")[1];
+    formatDateToTime = (date) => {
+        let withoutDate = date.split(" ")[1];
+        let betterTime = withoutDate.split(":")[0] + ':' + withoutDate.split(":")[1];
         return betterTime;
     }
-
+    
     render() {
-        let { time } = this.props;
+        let { startTime } = this.props;
         return(
             <TimeContaier>
-               {this.getBetterTime(time)} 
+               {this.formatDateToTime(startTime)} 
             </TimeContaier>
-            
         )
     }
 }
 
-export default Title;
+export default Time;
