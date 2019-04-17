@@ -7,7 +7,7 @@ const TimeContaier = styled.span`
 `;
 
 class Time extends Component {
-
+    //метод для вывода времени в необходимом формате ('HH:mm')
     formatDateToTime = (date) => {
         let withoutDate = date.split(" ")[1];
         let betterTime = withoutDate.split(":")[0] + ':' + withoutDate.split(":")[1];
